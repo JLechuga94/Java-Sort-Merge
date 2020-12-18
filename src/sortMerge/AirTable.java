@@ -27,7 +27,16 @@ public class AirTable{
 	private static int sizeBloc = 10;
 	
 	public static void main(String[] args) throws IOException {
+		
+		ArrayList<String> airTableRelations = new ArrayList<String>(
+				Arrays.asList("RD",
+						"A00", "A01", "A02", "A03", "A04", "A05","A06", "A07", "A08","A09", 
+						"B00", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09"));
+		
 		List<Integer> numbers = createIntRelation(96,200);
+		
+		deleteAirTableData(airTableRelations);
+		sendAirTableData(numbers, "RD");
 	}
 	
 	// Test this method easily
@@ -49,7 +58,7 @@ public class AirTable{
 	}
 		
 
-	public static void clearAirTableData(ArrayList<String> airTableRelations) throws IOException {
+	public static void deleteAirTableData(ArrayList<String> airTableRelations) throws IOException {
 		System.out.println("----- Clearing existing Data from AirTable -----");
 		String relation = null;
 		for(int i = 0; i < airTableRelations.size(); i++) {
@@ -62,7 +71,7 @@ public class AirTable{
 	/*** This function sends all the data generated from randomly selecting pairs of characters in groups of 10
 	 * since AirTable limits each call to 10 records. We need to send R and S in packets of 10 cells.
 	 ***/
-	public static void sendAirTableData(ArrayList<String> relation, String relationName) throws IOException {
+	public static void sendAirTableData(List<Integer> relation, String relationName) throws IOException {
 		System.out.println("----- Sending new Data to AirTable -----\n");
 		
 		ArrayList<String> dataBloc = new ArrayList<String>();
@@ -75,7 +84,7 @@ public class AirTable{
 		while(relation.size() > 0) {
 			
 			while(dataBloc.size() < sizeBloc && relation.size() > 0) {
-				dataBloc.add(relation.remove(0));
+				dataBloc.add(Integer.toString(relation.remove(0)));
 			}
 			
 			if(relationName == "RD")

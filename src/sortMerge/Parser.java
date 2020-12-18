@@ -40,7 +40,7 @@ public class Parser {
 			}
 		json.append(String.format("{\"fields\": {\"Value\":\"%s\"}}", relation.get(relation.size()-1)));
 		json.append("]}");
-		//System.out.println(json.toString());
+		System.out.println(json.toString());
 		
 		return json.toString();
 	}
