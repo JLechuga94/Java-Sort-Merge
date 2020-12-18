@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class AirTable{
 	
@@ -109,19 +108,5 @@ public class AirTable{
 		API.POST(json, relationName);
 		
 		System.out.println("----- Finished sending new Data to AirTable -----\n");
-	}
-
-	public static ArrayList<String> transformMergeDataToArray(int[][] RS){
-		ArrayList<String> mergedData = new ArrayList<String>();
-		
-		for(int i = 0; i < RS.length; i++) {
-			if(Arrays.stream(RS[i]).sum() > 0) {
-				ArrayList<String> rsBloc = Parser.asciiTableToStringArray(RS[i]);
-				mergedData.addAll(rsBloc);
-			}
-		}
-		System.out.println("Merged data");
-		System.out.println(mergedData + "\n");
-		return mergedData;
 	}
 }

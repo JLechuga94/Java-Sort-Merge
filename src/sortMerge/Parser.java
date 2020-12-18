@@ -50,17 +50,13 @@ public class Parser {
 		String json = convertStreamToString(responseStream);
 		
 		ArrayList<String> values = getAllMatches(json, valueRgx);
+		
 		int[] table = new int[values.size()];
 		
-		if(!descriptor) {
-			table = stringArrayToASCIITable(values);
+		for(int i = 0; i < values.size(); i++) {
+			table[i] = Integer.parseInt(values.get(i));  
 		}
-		else {
-			for(int i = 0; i < values.size(); i++) {
-				table[i] = Integer.parseInt(values.get(i));  
-			}
-		}
-		        
+		
         return table;
 	}
 	
@@ -107,44 +103,4 @@ public class Parser {
         }
         return matches;
     }
-	
-	private static int[] stringArrayToASCIITable(ArrayList<String> relation) {
-
-		int[] asciiRelation = new int[relation.size()];
-		for(int i = 0; i < relation.size(); i++ ) {
-			
-			char char1 = relation.get(i).charAt(0);
-			char char2 = relation.get(i).charAt(1);
-			int ascii1 = (int) char1;
-			int ascii2 = (int) char2;
-			int blocValue = ascii1*100 + ascii2;
-			asciiRelation[i] = blocValue;
-			
-		}
-//		System.out.println(Arrays.toString(asciiRelation));
-		
-		return asciiRelation;
-	}
-	
-	public static String asciiIntToString(int asciiInt) {
-		String asciiStr = null;
-		// To make sure we don't include empty strings
-		if(asciiInt != 0) {
-			int char1 = asciiInt/100;
-			int char2 = asciiInt%100;
-			asciiStr = Character.toString((char) char1) + Character.toString((char) char2);
-		}
-		return asciiStr;
-	}
-	
-	public static ArrayList<String> asciiTableToStringArray(int[] asciiTable) {
-		ArrayList<String> relation = new ArrayList<String>();
-		for(int i = 0; i < asciiTable.length; i++) {
-			String str = asciiIntToString(asciiTable[i]);
-			if(str != null)
-				relation.add(str);
-		}
-		//System.out.println(relation);
-		return relation;
-	}
 }

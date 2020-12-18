@@ -16,14 +16,10 @@
 package sortMerge;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println(Parser.asciiTableToStringArray(Parser.parseValues(API.GET("A01"), false)));
 	}
 		
 

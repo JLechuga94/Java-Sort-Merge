@@ -22,66 +22,20 @@ import java.io.*;
 
 public class Algorithm {
 	
-	// Storage size for output merged data
-	private static int storageSize = 10;
-	
-	public static int[][] innerLoopJoin(int[] RD, int[] SD, int sizeRSD) throws IOException {
+	public static void main(String[] args) throws IOException {
+		InputStream responseStreamR = API.GET("A00");
+		int[] blocA00 = Parser.parseValues(responseStreamR, false);
 		
-		int cell = 0;
-		int blocRSIndex = 0;
-		int[][] RS = new int[sizeRSD][storageSize];
+		InputStream responseStreamR1 = API.GET("A01");
+		int[] blocA01 = Parser.parseValues(responseStreamR1, false);
 		
-		int i = 0;
-		while(i < RD.length) {
-			// Read block R
-			
-			InputStream responseStreamR = API.GET("A0" + i);
-			int[] blocR = Parser.parseValues(responseStreamR, false);
-			System.out.println(String.format("------------------- Analyzing R bloc A0%d -------------------", i));
-			System.out.println(Arrays.toString(blocR));
-			System.out.println(spaceAdder(Parser.asciiTableToStringArray(blocR)) + "\n");
-			
-			int j = 0;
-			while(j < SD.length) {
-				// Read block S
-				InputStream responseStreamS = API.GET("B0" + j);
-				int[] blocS = Parser.parseValues(responseStreamS, false);
-				
-				//Initialize row of bloc R
-				int k = 0;
-				while(k < blocR.length) {
-					// Initialize row of bloc S
-					int w = 0;
-					while(w < blocS.length) {
-						//  If 
-						if(blocR[k] == blocS[w]) {
-							System.out.println(String.format("S bloc matched: B0%d", j));
-							System.out.println(String.format("Matched element: %d --> %s", blocR[k], Parser.asciiIntToString(blocR[k])));
-							System.out.println(Arrays.toString(blocS));
-							System.out.println(spaceAdder(Parser.asciiTableToStringArray(blocS)) + "\n");
-
-							if(cell < RS[blocRSIndex].length) {
-								RS[blocRSIndex][cell] = blocR[k];
-								} 
-							else {
-								blocRSIndex++;
-								cell = 0;
-								RS[blocRSIndex][cell] = blocR[k];
-								}
-							cell++;	
-							
-							}
-						w++;
-					}
-					k++;
-				}
-				j++;
-			}
-			i++;
-		}
-		return RS;
+		Arrays.sort(blocA00);
+		Arrays.sort(blocA01);
+		System.out.println(Arrays.toString(blocA00));
+		System.out.println(Arrays.toString(blocA01));
+		
 	}
-	
+		
 	// Function only for visualization purposes during run of algorithm
 	// It displays the String value of each ASCII value below them
 	public static ArrayList<String> spaceAdder(ArrayList<String> relation){
@@ -90,21 +44,5 @@ public class Algorithm {
 		}
 		return relation;
 	}
-	
-	// Display of Merged Data after run of the algorithm
-	public static void displayMergedData(int[][] RS) {
-		System.out.println("*******************  Merged Data  *******************\n");
-		for(int i = 0; i < RS.length; i++) {
-			if(Arrays.stream(RS[i]).sum() > 0) {
-				ArrayList<String> rsBloc = Parser.asciiTableToStringArray(RS[i]);
-				System.out.println(String.format("Merged table #%d", i));
-				System.out.println(Arrays.toString(RS[i]));
-				System.out.println(spaceAdder(rsBloc) + "\n");
-				
-			}
-		}
-	}
-	
-	
 
 }
